@@ -18,9 +18,11 @@ Proyek ini mengadopsi arsitektur MVC yang dikembangkan lebih lanjut dengan penam
 <img width="315" height="626" alt="{613EFF01-9D14-4BE8-878A-F8510FECB5F7}" src="https://github.com/user-attachments/assets/d2b25476-d665-4114-8f16-e963694887d4" />
 
 ## 3. Penjelasan Alur Program
-Saat program dijalankan, sistem secara otomatis membangun koneksi ke MySQL di latar belakang. Ketika pengguna memilih menu **Tampilkan Rental**, `Controller` akan meminta `DAO` untuk melakukan kueri (SELECT) ke *database*. Data *dummy* awal yang sudah disuntikkan lewat file `.sql` akan langsung ditarik dan dicetak ke layar. Apabila pengguna melakukan operasi Tambah, Update, atau Hapus, instruksi diteruskan dari `View` ke `Controller`, lalu dieksekusi secara permanen oleh `DAO` menggunakan sintaks SQL ke dalam tabel MySQL.
+Saat program dijalankan, sistem secara otomatis membangun koneksi ke MySQL di latar belakang. Ketika pengguna memilih menu **Tampilkan Rental**, `Controller` akan meminta `DAO` untuk melakukan kueri (SELECT) ke *database*. Data *dummy* awal yang sudah disuntikkan lewat file `.sql` akan langsung ditarik dan dicetak ke layar. Apabila pengguna melakukan operasi Tambah, Update, atau Hapus, instruksi diteruskan dari `View` ke `Controller`, lalu dieksekusi secara oleh `DAO` menggunakan sintaks SQL ke dalam tabel MySQL.
 
-> [TARUH SS DI SINI: Screenshot saat fitur Tampil Data dipanggil dan data dari database muncul, ATAU screenshot database phpMyAdmin yang memperlihatkan isi tabel]
+<img width="468" height="659" alt="{4BC7C21B-89ED-4761-BD6A-7B07E3D19D87}" src="https://github.com/user-attachments/assets/47116beb-b549-48b0-b19e-c56150acc914" />
+<img width="1052" height="172" alt="{3A5920A2-8D7E-4CAE-81B6-3A9EC0CE521A}" src="https://github.com/user-attachments/assets/7d6ec04e-c78b-4714-a456-8214c8d1304b" />
+
 
 ## 4. Penjelasan Penerapan Encapsulation dan Inheritance
 Penerapan **Encapsulation (Pengkapsulan)** dibuktikan dengan penggunaan modifikator `private` pada atribut kelas dan pelindungan integritas data melalui metode *Getter* dan *Setter* (misalnya validasi lama sewa minimal 1 hari). Atribut ID (`idRental`, `idPapan`) juga dilindungi dengan *keyword* `final` agar tidak bisa dimodifikasi setelah transaksi dibuat. 
