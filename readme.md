@@ -39,7 +39,10 @@ Program ini menggunakan API standar JDBC untuk berkomunikasi dengan basis data r
 
 Pada lapisan kode, antarmuka `java.sql.Connection` digunakan bersama `DriverManager` di dalam package `config` untuk menyambungkan URL *database*, *username*, dan *password*. Eksekusi kueri dilakukan di dalam `PenyewaDAO` menggunakan antarmuka `PreparedStatement` dan `ResultSet` untuk memetakan baris data SQL kembali menjadi objek Java (`ArrayList`).
 
-> [TARUH SS DI SINI: Screenshot potongan kode koneksi di Koneksi.java ATAU kode PreparedStatement di PenyewaDAO.java]
+<img width="962" height="532" alt="{E9C4FD58-B5C9-4226-9050-6A7EA94B34E9}" src="https://github.com/user-attachments/assets/cf5fd781-60e2-4bc3-a52c-223a8b66fcf6" />
+<img width="708" height="388" alt="{8BBE3AFD-0457-44E4-9342-025F344B690C}" src="https://github.com/user-attachments/assets/428fb525-709d-4fce-8558-f67c5b2632ea" />
+
+
 
 ## 7. Penjelasan Letak Penerapan Nilai Tambah (Nilai Plus)
 Proyek ini mengimplementasikan nilai tambah pada arsitektur pengamanan kueri basis data dan desain struktur (*Design Pattern*):
