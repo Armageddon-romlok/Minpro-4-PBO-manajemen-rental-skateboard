@@ -1,9 +1,48 @@
-Tambah Data Rental (Create): Fitur untuk mencatat transaksi penyewaan baru. Pengguna dapat memasukkan detail penyewa (No. Identitas, Nama, No. HP), spesifikasi skateboard (ID, Merk, Jenis), serta harga dan lama sewa. Data ini disimpan secara dinamis menggunakan implementasi Collection ArrayList.
+# Minpro-4-PBO-SistemRentalSkateboard
 
-Tampilkan Data Rental (Read): Menampilkan daftar seluruh transaksi penyewaan yang sedang aktif di dalam sistem. Output mencakup ringkasan ID Transaksi, data pelanggan, unit skateboard yang disewa, durasi, serta kalkulasi otomatis untuk total biaya sewa.
+## 1. Deskripsi Singkat Program
+Program ini adalah aplikasi *Command Line Interface* (CLI) Manajemen Rental Skateboard yang telah terintegrasi penuh dengan basis data relasional MySQL. Sistem ini mendukung operasi CRUD secara persisten, di mana data penyewaan papan (Street Skate dan Cruiser Skate) tidak lagi hilang saat program ditutup, melainkan disimpan ke dalam *database*. Program ini dikembangkan menggunakan arsitektur MVC, pola desain DAO, serta konektivitas JDBC.
 
-Update Lama Sewa (Update): Fitur modifikasi untuk memperbarui durasi peminjaman. Sistem akan mencari entri berdasarkan ID Transaksi dan memperbarui nilai lama sewa, yang sangat berguna jika pelanggan ingin melakukan perpanjangan masa rental.
+<img width="397" height="195" alt="{F563976C-1EB7-4AB1-BAFC-B2167942BA6F}" src="https://github.com/user-attachments/assets/1ae68270-5bc3-4ca3-838d-576d9f7ddb88" />
 
-Hapus Data Rental (Delete): Menghapus catatan transaksi spesifik dari memori berdasarkan input ID Transaksi. Fitur ini digunakan saat pelanggan telah menyelesaikan transaksi (mengembalikan unit) atau apabila terjadi kesalahan input data.
 
-Keluar: Menghentikan while loop utama dan menutup eksekusi program CLI (Command Line Interface) secara aman.
+## 2. Penjelasan Struktur Package
+Proyek ini mengadopsi arsitektur MVC yang dikembangkan lebih lanjut dengan penambahan lapisan akses dan konfigurasi data:
+*   **`config`**: Menyimpan kelas `Koneksi.java` yang bertugas membangun jembatan penghubung ke database MySQL.
+*   **`dao` (Data Access Object)**: Berisi kelas `PenyewaDAO.java` yang menjadi "pintu" eksklusif untuk berbicara dengan *database*, memisahkan murni logika SQL dari logika bisnis aplikasi.
+*   **`model`**: Berisi *blueprint* objek seperti `Skateboard`, tipe-tipe papan, dan `Penyewa` beserta antarmuka kontraknya.
+*   **`view`**: Menangani antarmuka CLI, interaksi *Scanner*, dan *Exception Handling* (try-catch).
+*   **`controller`**: Mengatur alur pertukaran data antara `View` dan lapisan `DAO`.
+*   **`main`**: Titik mula (*entry point*) untuk menjalankan aplikasi melalui `MainApp`.
+
+<img width="315" height="626" alt="{613EFF01-9D14-4BE8-878A-F8510FECB5F7}" src="https://github.com/user-attachments/assets/d2b25476-d665-4114-8f16-e963694887d4" />
+
+## 3. Penjelasan Alur Program
+Saat program dijalankan, sistem secara otomatis membangun koneksi ke MySQL di latar belakang. Ketika pengguna memilih menu **Tampilkan Rental**, `Controller` akan meminta `DAO` untuk melakukan kueri (SELECT) ke *database*. Data *dummy* awal yang sudah disuntikkan lewat file `.sql` akan langsung ditarik dan dicetak ke layar. Apabila pengguna melakukan operasi Tambah, Update, atau Hapus, instruksi diteruskan dari `View` ke `Controller`, lalu dieksekusi secara permanen oleh `DAO` menggunakan sintaks SQL ke dalam tabel MySQL.
+
+> [TARUH SS DI SINI: Screenshot saat fitur Tampil Data dipanggil dan data dari database muncul, ATAU screenshot database phpMyAdmin yang memperlihatkan isi tabel]
+
+## 4. Penjelasan Penerapan Encapsulation dan Inheritance
+Penerapan **Encapsulation (Pengkapsulan)** dibuktikan dengan penggunaan modifikator `private` pada atribut kelas dan pelindungan integritas data melalui metode *Getter* dan *Setter* (misalnya validasi lama sewa minimal 1 hari). Atribut ID (`idRental`, `idPapan`) juga dilindungi dengan *keyword* `final` agar tidak bisa dimodifikasi setelah transaksi dibuat. 
+
+Penerapan **Inheritance (Pewarisan)** ditunjukkan dengan penggunaan kata kunci `extends`. Kelas `StreetSkate` dan `CruiserSkate` adalah turunan (subclass) yang mewarisi atribut umum (`idPapan`, `merk`, `tarifSewa`) dari kelas induknya, yaitu `Skateboard`.
+
+## 5. Penjelasan Penerapan Polymorphism dan Abstraction
+Penerapan **Abstraction (Abstraksi)** dilakukan dengan mendeklarasikan kelas `Skateboard` sebagai `abstract`, menjadikannya *blueprint* murni. Kelas ini memiliki *abstract method* `tampilkanDetailPapan()` tanpa *body*, yang mewajibkan kelas turunannya mendefinisikan bentuk tampilannya sendiri.
+
+Penerapan **Polymorphism (Polimorfisme)** dilakukan melalui **Overriding**, di mana `StreetSkate` dan `CruiserSkate` menimpa metode `tampilkanDetailPapan()` dengan `@Override` untuk mencetak spesifikasi khusus (ukuran roda atau panjang papan). Selain itu, terdapat **Overloading** pada kelas `Penyewa` yang memiliki dua versi metode `hitungTotalBiaya()`: satu tanpa parameter untuk tarif normal, dan satu dengan parameter `double diskon`.
+
+## 6. Penjelasan Penerapan JDBC (Java Database Connectivity)
+Program ini menggunakan API standar JDBC untuk berkomunikasi dengan basis data relasional. Konektivitas didaftarkan melalui file `pom.xml` dengan menambahkan *dependency* `mysql-connector-j`. 
+
+Pada lapisan kode, antarmuka `java.sql.Connection` digunakan bersama `DriverManager` di dalam package `config` untuk menyambungkan URL *database*, *username*, dan *password*. Eksekusi kueri dilakukan di dalam `PenyewaDAO` menggunakan antarmuka `PreparedStatement` dan `ResultSet` untuk memetakan baris data SQL kembali menjadi objek Java (`ArrayList`).
+
+> [TARUH SS DI SINI: Screenshot potongan kode koneksi di Koneksi.java ATAU kode PreparedStatement di PenyewaDAO.java]
+
+## 7. Penjelasan Letak Penerapan Nilai Tambah (Nilai Plus)
+Proyek ini mengimplementasikan nilai tambah pada arsitektur pengamanan kueri basis data dan desain struktur (*Design Pattern*):
+1.  **Penerapan DAO (Data Access Object) Pattern:** Seluruh operasi *database* diisolasi ke dalam package `dao`. Kelas `Controller` tidak lagi menyentuh sintaks SQL sama sekali, sehingga kode menjadi lebih rapi, modular, dan terstruktur standar industri perangkat lunak.
+2.  **Keamanan PreparedStatement (Anti SQL-Injection):** Alih-alih merangkai *String* kueri secara langsung yang rentan diretas, program ini mengeksekusi parameter SQL menggunakan `PreparedStatement` (tanda `?`). Input dari pengguna diperlakukan murni sebagai data, bukan bagian dari perintah eksekusi, sehingga membantu mencegah serangan SQL Injection pada parameter yang diberikan pengguna.
+3.  **Penerapan Interface Murni:** Tetap mempertahankan kontrak `LayananRental` dari proyek sebelumnya untuk mengunci aturan metode `konfirmasiPenyewaan()` dan `cetakStruk()`.
+
+> [TARUH SS DI SINI: (Opsional) Screenshot tambahan saat program memvalidasi error handling atau update/delete data berhasil tembus ke MySQL]
