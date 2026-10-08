@@ -1,67 +1,60 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
-public class Penyewa {
-    private String idRental;
+public class Penyewa implements LayananRental {
+    private final String idRental;
     private String namaPenyewa;
-    private int lamaSewa; // dalam hari
-    private Skateboard skateboard; // Objek polymorph/induk (bisa StreetSkate/CruiserSkate)
+    private int lamaSewa;
+    private Skateboard papan;
 
-    public Penyewa(String idRental, String namaPenyewa, int lamaSewa, Skateboard skateboard) {
-        setIdRental(idRental);
-        setNamaPenyewa(namaPenyewa);
-        setLamaSewa(lamaSewa);
-        this.skateboard = skateboard;
+    public Penyewa(String idRental, String namaPenyewa, int lamaSewa, Skateboard papan) {
+        this.idRental = idRental;
+        this.namaPenyewa = namaPenyewa;
+        setLamaSewa(lamaSewa); 
+        this.papan = papan;
     }
 
-    public String getIdRental() {
-        return idRental;
+    public String getIdRental() { 
+        return idRental; 
     }
 
-    public void setIdRental(String idRental) {
-        if (idRental == null || idRental.trim().isEmpty()) {
-            this.idRental = "RNT-000";
-        } else {
-            this.idRental = idRental;
-        }
+    public String getNamaPenyewa() { 
+        return namaPenyewa; 
     }
 
-    public String getNamaPenyewa() {
-        return namaPenyewa;
+    public int getLamaSewa() { 
+        return lamaSewa; 
     }
 
-    public void setNamaPenyewa(String namaPenyewa) {
-        if (namaPenyewa == null || namaPenyewa.trim().isEmpty()) {
-            this.namaPenyewa = "Anonim";
-        } else {
-            this.namaPenyewa = namaPenyewa;
-        }
+    public Skateboard getPapan() { 
+        return papan; 
     }
-
-    public int getLamaSewa() {
-        return lamaSewa;
-    }
-
+    
     public void setLamaSewa(int lamaSewa) {
-        if (lamaSewa <= 0) {
-            this.lamaSewa = 1; // Minimal 1 hari
-        } else {
-            this.lamaSewa = lamaSewa;
-        }
-    }
-
-    public Skateboard getSkateboard() {
-        return skateboard;
-    }
-
-    public void setSkateboard(Skateboard skateboard) {
-        this.skateboard = skateboard;
+        this.lamaSewa = lamaSewa > 0 ? lamaSewa : 1;
     }
 
     public double hitungTotalBiaya() {
-        return lamaSewa * skateboard.getHargaSewa();
+        return lamaSewa * papan.getTarifSewa();
+    }
+
+    public double hitungTotalBiaya(double diskon) {
+        double total = (lamaSewa * papan.getTarifSewa()) - diskon;
+        return total > 0 ? total : 0;
+    }
+
+    @Override
+    public void konfirmasiPenyewaan() {
+        System.out.println(">> [SISTEM] Penyewaan atas nama " + namaPenyewa + " telah dikonfirmasi.");
+    }
+
+    @Override
+    public void cetakStruk() {
+        System.out.println("----------------------------------");
+        System.out.println("ID Rental  : " + idRental);
+        System.out.println("Penyewa    : " + namaPenyewa);
+        System.out.println("Lama Sewa  : " + lamaSewa + " Hari");
+        papan.tampilkanDetailPapan();
+        System.out.println("TOTAL BIAYA: Rp " + hitungTotalBiaya());
+        System.out.println("----------------------------------");
     }
 }
