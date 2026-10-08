@@ -50,4 +50,7 @@ Proyek ini mengimplementasikan nilai tambah pada arsitektur pengamanan kueri bas
 2.  **Keamanan PreparedStatement (Anti SQL-Injection):** Alih-alih merangkai *String* kueri secara langsung yang rentan diretas, program ini mengeksekusi parameter SQL menggunakan `PreparedStatement` (tanda `?`). Input dari pengguna diperlakukan murni sebagai data, bukan bagian dari perintah eksekusi, sehingga membantu mencegah serangan SQL Injection pada parameter yang diberikan pengguna.
 3.  **Penerapan Interface Murni:** Tetap mempertahankan kontrak `LayananRental` dari proyek sebelumnya untuk mengunci aturan metode `konfirmasiPenyewaan()` dan `cetakStruk()`.
 
-> [TARUH SS DI SINI: (Opsional) Screenshot tambahan saat program memvalidasi error handling atau update/delete data berhasil tembus ke MySQL]
+<img width="637" height="458" alt="{07BE1911-3EE7-4338-9624-62871A084493}" src="https://github.com/user-attachments/assets/2e841441-c7ce-451c-bd0b-5fa0f25f2317" />
+<img width="1068" height="165" alt="{CEDF8059-C3E2-4E81-A059-DCBE6A288449}" src="https://github.com/user-attachments/assets/aace6978-9367-4ff9-8491-3e57b25c70f5" />
+
+<img width="1520" height="210" alt="{9E07434B-7950-4D2C-B408-ACACAC5EA6ED}" src="https://github.com/user-attachments/assets/e2104795-6da1-4d1a-9140-73af71e8d86a" />
