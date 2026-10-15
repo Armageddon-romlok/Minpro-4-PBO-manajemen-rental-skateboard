@@ -70,10 +70,8 @@ public class PenyewaDAO {
 
         try (Connection conn = Koneksi.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setInt(1, lamaBaru);
             stmt.setString(2, idRental);
-
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println(">> ERROR Update DB: " + e.getMessage());
